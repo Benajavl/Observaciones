@@ -1,1 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Visor PAD · Estático</title>
+<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+<div id="dimVeil"></div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div>
+        <h1>Visor de Estado PAD</h1>
+        <small>Actualiza automáticamente</small>
+      </div>
+    </div>
+    <div class="controls">
+      <label class="switch"><input id="autoScroll" type="checkbox" /> Auto-scroll</label>
+      <button class="btn" id="btnRefresh">Actualizar</button>
+      <button class="btn secondary" id="btnPause">Pausar</button>
+      <button class="btn secondary" id="btnFull">Pantalla completa</button>
+      <button class="btn secondary" id="btnSettings">Ajustes</button>
+    </div>
+  </header>
 
+  <main>
+    <div class="board">
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-label">Etapas totales</div><div id="kpiTotal" class="kpi-value">0</div></div>
+        <div class="kpi"><div class="kpi-label">Realizadas</div><div id="kpiDone" class="kpi-value kpi-green">0</div></div>
+        <div class="kpi"><div class="kpi-label">Restantes</div><div id="kpiRemain" class="kpi-value kpi-amber">0</div></div>
+        <div class="kpi">
+          <div class="kpi-label">Promedio (últ. 7 días)</div>
+          <div id="kpiAvg" class="kpi-sub">—</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Fin estimado</div>
+          <div id="kpiETA" class="kpi-sub">—</div>
+        </div>
+      </div>
+
+      <div id="stockBar" class="stockbar" aria-label="Stock"></div>
+
+      <div id="wells" class="wells"></div>
+
+      <footer>
+        <div class="row">
+          <span>Última actualización: <strong id="lastUpdate">—</strong></span>
+          <span id="netStatus" class="pill"><span class="dot"></span> Conectando…</span>
+        </div>
+        <div class="row small">Se actualiza cada <span id="refreshSec">15</span>s</div>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-label="Ajustes">
+  <div class="modal-card">
+    <div class="modal-head">
+      <strong>Ajustes</strong>
+      <button class="btn secondary" id="btnCloseSettings">Cerrar</button>
+    </div>
+
+    <div class="modal-body">
+      <section class="grid g3">
+        <label>Tamaño “POZO #n” <input type="number" id="setPozoFont" min="12" max="36" step="1"></label>
+        <label>Tamaño datos (TPN/FRACTURADO) <input type="number" id="setCellFont" min="12" max="28" step="1"></label>
+        <label>Tamaño “STOCK” <input type="number" id="setStockFont" min="10" max="24" step="1"></label>
+      </section>
+
+      <section>
+        <h4 style="margin:0 0 8px 0;color:#9cc8ff">Pozos visibles</h4>
+        <div id="wellChooser" class="row"></div>
+        <div class="small">Tip: siempre queda al menos 1 pozo visible.</div>
+      </section>
+
+      <section class="grid g3">
+        <label><input type="checkbox" id="setNightEnabled"> Atenuación nocturna</label>
+        <label>Inicio (h) <input type="number" id="setNightStart" min="0" max="23"></label>
+        <label>Fin (h) <input type="number" id="setNightEnd" min="0" max="23"></label>
+        <label class="full">Brillo (20–100%) <input type="range" id="setNightDim" min="20" max="100"></label>
+      </section>
+
+      <section class="grid g3">
+        <label><input type="checkbox" id="setShiftEnabled"> Pixel-shift</label>
+        <label>Intervalo (min) <input type="number" id="setShiftEvery" min="1" max="60"></label>
+        <label>Desplazamiento (px) <input type="number" id="setShiftPixels" min="0" max="10"></label>
+      </section>
+
+      <section>
+        <div class="row" style="justify-content:space-between">
+          <h4 style="margin:0;color:#9cc8ff">Reglas de stock</h4>
+          <div class="row">
+            <button class="btn secondary" id="btnLoadDetected">Cargar ítems detectados</button>
+            <button class="btn secondary" id="btnAddRule">Añadir regla</button>
+          </div>
+        </div>
+        <div class="rules-head"><div>Ítem</div><div>Unidad</div><div>Bajo</div><div>Medio</div><div></div></div>
+        <div id="rulesBody"></div>
+      </section>
+
+      <div class="modal-actions">
+        <button class="btn secondary" id="btnReset">Restablecer</button>
+        <button class="btn" id="btnSaveSettings">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>
